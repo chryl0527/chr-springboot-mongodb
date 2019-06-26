@@ -2,6 +2,7 @@ package com.chryl.controller;
 
 import com.chryl.po.User;
 import com.chryl.repo.BaseMongoRepository;
+import com.fasterxml.jackson.databind.util.ArrayIterator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -20,8 +21,6 @@ public class MongoController {
     private BaseMongoRepository baseMongoRepository;
     @Autowired
     private MongoTemplate mongoTemplate;
-
-
 
 
     /**
@@ -58,9 +57,25 @@ public class MongoController {
 
     //springBoot DATA mongodb   @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     @GetMapping("/save")
-    public String show1() {
-        User user = new User(null, "百科大全", "20171");
+    public String save() {
+        User user = new User(null, "百科大全", "2099");
         baseMongoRepository.save(user);
+        return "true";
+    }
+
+    @GetMapping("/saveAll")
+    public String saveAll() {
+        User user1 = new User("001", "spring大全", "2011");
+        User user2 = new User("002", "ajax大全", "2014");
+        User user3 = new User("003", "jquery大全", "2013");
+        User user4 = new User("004", "redis大全", "2019");
+        User user5 = new User("005", "mongo大全", "2016");
+        User[] users = {user1, user2, user3, user4, user5};
+
+        Iterable<User> user = () -> {
+            return new ArrayIterator<>(users);
+        };
+        baseMongoRepository.saveAll(user);
         return "true";
     }
 
@@ -72,7 +87,8 @@ public class MongoController {
 
     @GetMapping("/del")
     public String del() {
-        baseMongoRepository.deleteById("111");
+//        baseMongoRepository.deleteById("111");
+        baseMongoRepository.deleteAll();
         return "true";
     }
 
