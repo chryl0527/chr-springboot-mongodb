@@ -12,11 +12,7 @@ public class ChrSpringbootMongodbApplication {
 		SpringApplication.run(ChrSpringbootMongodbApplication.class, args);
 	}
 
-	@Autowired
-	private MongoTemplate mongoTemplate;
 
-	public void show(){
 
-	}
 
 }
