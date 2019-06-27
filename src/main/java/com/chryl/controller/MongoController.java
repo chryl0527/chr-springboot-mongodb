@@ -12,6 +12,7 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,12 +25,64 @@ public class MongoController {
     @Autowired
     private MongoTemplate mongoTemplate;
 
+    @GetMapping("/show00")
+    public String show00() {
+
+        return "suc";
+    }
 
     //mongoTemplate @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
+    /**
+     * upsert 顾名思义 update+insert 如果根据条件没有对应的数据,则执行插入
+     *
+     * @return
+     */
+    @GetMapping("/show9")
+    public String show9() {
+        Query query = new Query(new Criteria("_id").is("sd-0006"));
+        Update update = new Update();
+        update.set("s_name", "chr0561");
+        //updateMulti 如果根据查询条件找到对应的多条记录是，全部更新
+        //updateFirst 更改符合条件的第一个
+        mongoTemplate.updateMulti(query, update, Student.class);
+        return "suc";
+    }
 
     /**
-     * 查询然后更改
+     * 查找后删除:可以指定collection
+     *
+     * @return
+     */
+    @GetMapping("/show8")
+    public String show8() {//为什么主键不是 : s_id,而是_id
+        Query query = new Query(new Criteria("_id").is("sd-0007"));
+        mongoTemplate.findAndRemove(query, Student.class);
+        return "suc";
+    }
+
+    /**
+     * 一次插入多天数据
+     *
+     * @return
+     */
+    @GetMapping("/show7")
+    public String show7() {
+
+        List<Student> users = new ArrayList<>();
+        Student student1 = new Student("sd-0006", "math", 23);
+        Student student3 = new Student("sd-0007", "yellow", 15);
+        Student student2 = new Student("sd-0008", "pink", 19);
+
+        users.add(student1);
+        users.add(student2);
+        users.add(student3);//集合中可以放多个
+        mongoTemplate.insertAll(users);
+        return "suc";
+    }
+
+    /**
+     * 查询然后更改:findAndModify
      *
      * @return
      */
@@ -45,7 +98,8 @@ public class MongoController {
     }
 
     /**
-     * save 到固定的cllection
+     * 插入一条
+     * save 到固定的collection
      * 或者 po类加上 @Document(collection = "Student")
      */
     @GetMapping("/show5")
