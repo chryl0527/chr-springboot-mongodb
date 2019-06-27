@@ -12,7 +12,10 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -31,7 +34,62 @@ public class MongoController {
         return "suc";
     }
 
+    public static long parseMills(Date date) {
+        return date.getTime();
+    }
+
+    //格式转换:date->StingDate
+    public static String format(Date date) {
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return sf.format(date);
+    }
+
+    //StringDate->Date
+    public static Date parse(String date) throws ParseException {
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date parse = sf.parse(date);
+        return parse;
+    }
     //mongoTemplate @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+
+    /**
+     * 时间区间查询
+     *
+     * @return
+     */
+    @GetMapping("/show11")
+    public Object show11() throws ParseException {
+        List<Student> students = mongoTemplate.find(new Query(
+                //时间戳小于 95年4月5日
+                Criteria.where("s_birthday").lte(parseMills(new Date(95, 4, 5)))
+                        //时间戳大于 93年4月5日
+                        .andOperator(Criteria.where("s_birthday").gte(parseMills(new Date(93, 4, 5))))
+//                        .andOperator(Criteria.where("s_birthday").gte(13))
+        ), Student.class);
+        return students;
+    }
+
+    /**
+     * mongo 区间 多条件查询
+     *
+     * @return
+     * @throws ParseException
+     */
+    @GetMapping("/show10")
+    public Object show10() throws ParseException {
+//        mongoTemplate.find(new Query(
+//                Criteria.where("birthday").gte(sf.parse("2013-06-06-00:00:00"))
+//                        .andOperator(Criteria.where("birthday").lte(sf.parse("2013-06-09-23:59:59")))
+//        ), Student.class);
+        List<Student> students = mongoTemplate.find(new Query(
+                //lt < ; gt 大于
+                //lte <= ; gte >=
+                Criteria.where("_id").lte("sd-0006")
+                        .andOperator(Criteria.where("s_age").gte(13))
+        ), Student.class);
+        return students;
+    }
 
     /**
      * upsert 顾名思义 update+insert 如果根据条件没有对应的数据,则执行插入
@@ -67,13 +125,13 @@ public class MongoController {
      * @return
      */
     @GetMapping("/show7")
-    public String show7() {
+    public String show7() throws ParseException {
 
         List<Student> users = new ArrayList<>();
-        Student student1 = new Student("sd-0006", "math", 23);
-        Student student3 = new Student("sd-0007", "yellow", 15);
-        Student student2 = new Student("sd-0008", "pink", 19);
-
+        Student student1 = new Student("sd-0006", "math", 23, parseMills(new Date(93, 1, 21)));
+        Student student3 = new Student("sd-0007", "yellow", 15, parseMills(new Date(96, 5, 21)));
+        Student student2 = new Student("sd-0008", "pink", 19, parseMills(new Date(97, 2, 21)));
+//
         users.add(student1);
         users.add(student2);
         users.add(student3);//集合中可以放多个
@@ -103,10 +161,10 @@ public class MongoController {
      * 或者 po类加上 @Document(collection = "Student")
      */
     @GetMapping("/show5")
-    public String show5() {
-        Student student1 = new Student("sd-0001", "nancy", 13);
-        Student student3 = new Student("sd-0003", "na", 11);
-        Student student2 = new Student("sd-0002", "ncy", 14);
+    public String show5() throws ParseException {
+        Student student1 = new Student("sd-0001", "nancy", 13, parseMills(new Date(97, 3, 11)));
+        Student student3 = new Student("sd-0003", "na", 11, parseMills(new Date(94, 4, 20)));
+        Student student2 = new Student("sd-0002", "ncy", 14, parseMills(new Date(95, 1, 17)));
 //        mongoTemplate.save(student1, "chryl");
 //        mongoTemplate.save(student2, "chryl");
 //        mongoTemplate.save(student3, "chryl");

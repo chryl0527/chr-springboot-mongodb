@@ -24,14 +24,17 @@ public class Student implements Serializable {
     private String sName;
     @Field("s_age")
     private Integer sAge;
+    @Field("s_birthday")
+    private long sBirthday;
 
     public Student() {
     }
 
-    public Student(String sId, String sName, Integer sAge) {
+    public Student(String sId, String sName, Integer sAge, long sBirthday) {
         this.sId = sId;
         this.sName = sName;
         this.sAge = sAge;
+        this.sBirthday = sBirthday;
     }
 
     public String getsId() {
@@ -56,5 +59,13 @@ public class Student implements Serializable {
 
     public void setsAge(Integer sAge) {
         this.sAge = sAge;
+    }
+
+    public long getsBirthday() {
+        return sBirthday;
+    }
+
+    public void setsBirthday(long sBirthday) {
+        this.sBirthday = sBirthday;
     }
 }
