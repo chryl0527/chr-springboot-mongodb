@@ -1,5 +1,6 @@
 package com.chryl.controller;
 
+import com.chryl.po.Student;
 import com.chryl.po.User;
 import com.chryl.repo.BaseMongoRepository;
 import com.fasterxml.jackson.databind.util.ArrayIterator;
@@ -23,6 +24,17 @@ public class MongoController {
     private MongoTemplate mongoTemplate;
 
 
+
+
+    @GetMapping("/show5")
+    public void show5(){
+        Student student1=new Student("sd-0001","nancy",13);
+        Student student3=new Student("sd-0003","na",11);
+        Student student2=new Student("sd-0002","ncy",14);
+        mongoTemplate.save(student1,"chryl");
+        mongoTemplate.save(student2,"chryl");
+        mongoTemplate.save(student3,"chryl");
+    }
     /**
      * 和show3 一样
      *
