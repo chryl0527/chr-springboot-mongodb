@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,19 +25,45 @@ public class MongoController {
     private MongoTemplate mongoTemplate;
 
 
+    //mongoTemplate @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 
-    @GetMapping("/show5")
-    public void show5(){
-        Student student1=new Student("sd-0001","nancy",13);
-        Student student3=new Student("sd-0003","na",11);
-        Student student2=new Student("sd-0002","ncy",14);
-        mongoTemplate.save(student1,"chryl");
-        mongoTemplate.save(student2,"chryl");
-        mongoTemplate.save(student3,"chryl");
-    }
     /**
-     * 和show3 一样
+     * 查询然后更改
+     *
+     * @return
+     */
+    @GetMapping("/show6")
+    public String show6() {
+        Criteria criteria = Criteria.where("s_name").is("nancy");
+        Query q = new Query(criteria);
+        Update update = new Update();
+        update.set("s_name", "skx");
+        update.set("s_age", "24");
+        mongoTemplate.findAndModify(q, update, Student.class);
+        return "suc";
+    }
+
+    /**
+     * save 到固定的cllection
+     * 或者 po类加上 @Document(collection = "Student")
+     */
+    @GetMapping("/show5")
+    public String show5() {
+        Student student1 = new Student("sd-0001", "nancy", 13);
+        Student student3 = new Student("sd-0003", "na", 11);
+        Student student2 = new Student("sd-0002", "ncy", 14);
+//        mongoTemplate.save(student1, "chryl");
+//        mongoTemplate.save(student2, "chryl");
+//        mongoTemplate.save(student3, "chryl");
+        mongoTemplate.save(student1);
+        mongoTemplate.save(student2);
+        mongoTemplate.save(student3);
+        return "suc";
+    }
+
+    /**
+     * 和show3 一样,模糊查询
      *
      * @return
      */
@@ -48,6 +75,11 @@ public class MongoController {
         return di;
     }
 
+    /**
+     * 条件件查询
+     *
+     * @return
+     */
     @GetMapping("/show3")
     public Object show3() {
         //用来封装所有条件的对象
@@ -61,6 +93,7 @@ public class MongoController {
         return di;
     }
 
+    //查询指定collection全部的
     @GetMapping("/show2")
     public Object show2() {
         List<User> di = mongoTemplate.findAll(User.class, "db_chryl");
@@ -75,6 +108,11 @@ public class MongoController {
         return "true";
     }
 
+    /**
+     * 保存 多个
+     *
+     * @return
+     */
     @GetMapping("/saveAll")
     public String saveAll() {
         User user1 = new User("001", "spring大全", "2011");
@@ -91,12 +129,18 @@ public class MongoController {
         return "true";
     }
 
+    /**
+     * 查询多个
+     *
+     * @return
+     */
     @GetMapping("/get")
     public List<User> getUserList() {
         List<User> userList = baseMongoRepository.findAll();
         return userList;
     }
 
+    //删除
     @GetMapping("/del")
     public String del() {
 //        baseMongoRepository.deleteById("111");
@@ -104,6 +148,7 @@ public class MongoController {
         return "true";
     }
 
+    //更新
     @GetMapping("/update")
     public String update() {
         User user = new User("5d1329224bd0471da08760b1", "redis全解", null);

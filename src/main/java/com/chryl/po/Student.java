@@ -3,6 +3,7 @@ package com.chryl.po;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.io.Serializable;
 
@@ -17,40 +18,43 @@ public class Student implements Serializable {
 
     @Id
     @Indexed
-    private String id;
-    private String name;
-    private Integer age;
+    @Field("s_id")//给映射存储到 mongodb 的字段取别名
+    private String sId;
+    @Field("s_name")//给映射存储到 mongodb 的字段取别名
+    private String sName;
+    @Field("s_age")
+    private Integer sAge;
 
     public Student() {
     }
 
-    public Student(String id, String name, Integer age) {
-        this.id = id;
-        this.name = name;
-        this.age = age;
+    public Student(String sId, String sName, Integer sAge) {
+        this.sId = sId;
+        this.sName = sName;
+        this.sAge = sAge;
     }
 
-    public String getId() {
-        return id;
+    public String getsId() {
+        return sId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setsId(String sId) {
+        this.sId = sId;
     }
 
-    public String getName() {
-        return name;
+    public String getsName() {
+        return sName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setsName(String sName) {
+        this.sName = sName;
     }
 
-    public Integer getAge() {
-        return age;
+    public Integer getsAge() {
+        return sAge;
     }
 
-    public void setAge(Integer age) {
-        this.age = age;
+    public void setsAge(Integer sAge) {
+        this.sAge = sAge;
     }
 }
