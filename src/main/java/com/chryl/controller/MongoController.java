@@ -20,6 +20,8 @@ import java.util.Date;
 import java.util.List;
 
 /**
+ * mongo的基本使用
+ * <p>
  * Created By Chr on 2019/6/26.
  */
 @RestController
@@ -28,6 +30,7 @@ public class MongoController {
     private BaseMongoRepository baseMongoRepository;
     @Autowired
     private MongoTemplate mongoTemplate;
+
 //        Pattern pattern = Pattern.compile("^n", Pattern.CASE_INSENSITIVE);
 
     @GetMapping("/show00")
