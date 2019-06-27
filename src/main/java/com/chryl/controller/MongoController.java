@@ -34,6 +34,7 @@ public class MongoController {
         return "suc";
     }
 
+    //date->longTime
     public static long parseMills(Date date) {
         return date.getTime();
     }
