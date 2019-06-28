@@ -18,6 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * mongo的基本使用
@@ -59,6 +60,21 @@ public class MongoController {
     }
     //mongoTemplate @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
+
+    /**
+     * Pattern:未理解
+     * 模糊查询
+     *
+     * @return
+     */
+    @GetMapping("/show16")
+    public Object show16() {
+        Query query = new Query();
+        Pattern pattern = Pattern.compile("^.*" + "n" + ".*$", Pattern.CASE_INSENSITIVE);
+        query.addCriteria(Criteria.where("s_name").regex(pattern));
+        List<Student> students = mongoTemplate.find(query, Student.class);
+        return students;
+    }
 
     /**
      * orOperator:或者
