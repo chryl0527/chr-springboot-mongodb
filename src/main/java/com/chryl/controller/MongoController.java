@@ -22,7 +22,7 @@ import java.util.regex.Pattern;
 
 /**
  * mongo的基本使用:
- *
+ * <p>
  * mongo条件符号: QueryOperators queryOperators;
  * <p>
  * Created By Chr on 2019/6/26.
@@ -62,6 +62,23 @@ public class MongoController {
     }
     //mongoTemplate @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
+
+    /**
+     * 复杂条件查询
+     *
+     * @return
+     */
+    @GetMapping("/show17")
+    public Object show17() {
+        Pattern pattern = Pattern.compile("^n.*$");
+        Query query = new Query();
+        query.addCriteria(Criteria.where("s_name").regex(pattern));
+        query.addCriteria(Criteria.where("s_age").gte(11).lte(20));
+
+
+        List<Student> students = mongoTemplate.find(query, Student.class);
+        return students;
+    }
 
     /**
      * Pattern:未理解
