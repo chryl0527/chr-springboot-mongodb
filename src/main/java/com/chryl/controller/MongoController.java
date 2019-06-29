@@ -21,7 +21,9 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 /**
- * mongo的基本使用
+ * mongo的基本使用:
+ *
+ * mongo条件符号: QueryOperators queryOperators;
  * <p>
  * Created By Chr on 2019/6/26.
  */

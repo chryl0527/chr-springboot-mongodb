@@ -57,6 +57,7 @@ public class MongoController2 {
         return "suc";
     }
 
+    //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     @GetMapping("/show2")
     public String show2() {
 
