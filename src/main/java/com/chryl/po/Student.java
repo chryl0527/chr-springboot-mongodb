@@ -68,4 +68,14 @@ public class Student implements Serializable {
     public void setsBirthday(long sBirthday) {
         this.sBirthday = sBirthday;
     }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "sId='" + sId + '\'' +
+                ", sName='" + sName + '\'' +
+                ", sAge=" + sAge +
+                ", sBirthday=" + sBirthday +
+                '}';
+    }
 }

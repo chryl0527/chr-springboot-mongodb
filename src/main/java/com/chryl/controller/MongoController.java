@@ -295,6 +295,14 @@ public class MongoController {
 
     /**
      * save
+     * save和insert的区别
+     * 　　insert: 若新增数据的主键已经存在，则会抛 org.springframework.dao.DuplicateKeyException 异常提示主键重复，不保存当前数据。
+     * <p>
+     * 　　save: 若新增数据的主键已经存在，则会对当前已经存在的数据进行修改操作。
+     * 批操作:
+     * 　　insert: 可以一次性插入一整个列表，而不用进行遍历操作，效率相对较高
+     * <p>
+     * 　　save: 需要遍历列表，进行一个个的插入
      * 插入一条
      * save 到固定的collection
      * 或者 po类加上 @Document(collection = "Student")
@@ -308,6 +316,7 @@ public class MongoController {
 //        mongoTemplate.save(student2, "chryl");
 //        mongoTemplate.save(student3, "chryl");
         mongoTemplate.save(student1);
+//        mongoTemplate.insert(student1);
         mongoTemplate.save(student2);
         mongoTemplate.save(student3);
         return "suc";
