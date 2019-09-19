@@ -83,5 +83,14 @@ public class Many implements Serializable {
         this.manyMillis = manyMillis;
     }
 
-
+    @Override
+    public String toString() {
+        return "Many{" +
+                "manyId='" + manyId + '\'' +
+                ", manyName='" + manyName + '\'' +
+                ", manyAge=" + manyAge +
+                ", manyDate=" + manyDate +
+                ", manyMillis=" + manyMillis +
+                '}';
+    }
 }
